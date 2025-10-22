@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* App background and basic text color to match the mockup */
+body {
+  @apply bg-gradient-to-b from-[#07111a] to-[#0b0f14] text-slate-200;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
