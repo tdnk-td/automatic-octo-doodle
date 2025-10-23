@@ -1,11 +1,10 @@
-import { INGREDIENTS, Ingredient } from './ingredients';
+// src/data/recipes.ts
+
+import { INGREDIENT_MAP } from "./ingredients";
 
 export interface RecipeIngredient {
   id: string;
-  name: string;
   qty: number;
-  unitPrice: number;
-  cost: number;
 }
 
 export interface Recipe {
@@ -15,915 +14,262 @@ export interface Recipe {
   sellValue: number;
   output: number;
   craftingFocus: number;
+  icon?: string;
+  ingredients: RecipeIngredient[];
+
   totalIngredientCost: number;
   focusEfficiency: number;
-  ingredients: RecipeIngredient[];
-  icon?: string;
 }
 
-
-// helper to get ingredient by id
-function getIngredient(id: string): Ingredient {
-  const ingredient = INGREDIENTS.find(i => i.id === id);
-  if (!ingredient) throw new Error(`Ingredient not found: ${id}`);
-  return ingredient;
-}
-
-// helper to calculate ingredient cost
-function calcCost(qty: number, price: number): number {
-  return qty * price;
-}
-
-export const RECIPES = [
+// Base recipe definitions (minimal info)
+const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = [
   {
-    id: "mystery_medal",
-    name: "Mystery Medal",
-    skill: "Unknown",
-    sellValue: 2083.0,
-    output: 1.0,
-    craftingFocus: 10,
-    ingredients: [
-      { id: "baru_ore", qty: 3 },
-      { id: "healing_herb", qty: 3 },
-    ].map(i => {
-      const ing = getIngredient(i.id);
-      return {
-        ...i,
-        name: ing.name,
-        unitPrice: ing.defaultPrice,
-        cost: calcCost(i.qty, ing.defaultPrice)
-      };
-    }),
-    totalIngredientCost: 0,
-    focusEfficiency: 0
-  },
-  {
-    "id": "baru_ore",
-    "name": "Baru Ore",
+    "id": "mystery_medal",
+    "name": "Mystery Medal",
     "skill": "Smelting",
-    "sellValue": 180.0,
-    "output": 8.0,
+    "sellValue": 2083,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 18.0
-  },
-  {
-    "id": "burning_powder",
-    "name": "Burning Powder",
-    "skill": "Unknown",
-    "sellValue": 138.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_god_metal_01.webp",
+    "ingredients": [
+      { "id": "baru_ore", "qty": 8 },
+      { "id": "burning_powder", "qty": 1 },
+    ]
   },
   {
     "id": "fine_forgestone",
     "name": "Fine Forgestone",
     "skill": "Smelting",
-    "sellValue": 2083.0,
-    "output": 1.0,
+    "sellValue": 2083,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 208.3
-  },
-  {
-    "id": "luna_ore",
-    "name": "Luna Ore",
-    "skill": "Smelting",
-    "sellValue": 180.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 18.0
-  },
-  {
-    "id": "burning_powder",
-    "name": "Burning Powder",
-    "skill": "Unknown",
-    "sellValue": 138.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_forgestone_01.webp",
+    "ingredients": [
+      { "id": "luna_ore", "qty": 8 },
+      { "id": "burning_powder", "qty": 1 },
+    ]
   },
   {
     "id": "radiant_stone",
     "name": "Radiant Stone",
     "skill": "Gemcrafting",
-    "sellValue": 2083.0,
-    "output": 1.0,
+    "sellValue": 2083,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 208.3
-  },
-  {
-    "id": "azte_ore",
-    "name": "Azte Ore",
-    "skill": "Smelting",
-    "sellValue": 180.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 18.0
-  },
-  {
-    "id": "burning_powder",
-    "name": "Burning Powder",
-    "skill": "Unknown",
-    "sellValue": 138.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": [
+      { "id": "azte_ore", "qty": 8 },
+      { "id": "burning_powder", "qty": 1 },
+    ]
   },
   {
     "id": "buri_mech_shard",
     "name": "Buri Mech Shard",
-    "skill": "Gemology",
-    "sellValue": 6000.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 600.0
-  },
-  {
-    "id": "stokes_rich_ore",
-    "name": "Stokes Rich Ore",
     "skill": "Smelting",
-    "sellValue": 484.0,
-    "output": 9.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 48.4
-  },
-  {
-    "id": "fast_burning_powder",
-    "name": "Fast-burning Powder",
-    "skill": "Unknown",
-    "sellValue": 473.0,
-    "output": 3.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 47.3
-  },
-  {
-    "id": "name",
-    "name": "Name",
-    "skill": "Unknown",
-    "sellValue": 0.0,
+    "sellValue": 6000,
     "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
+    "ingredients": [
+      { "id": "stokes_rich_ore", "qty": 9 },
+      { "id": "fast_burning_powder", "qty": 3 },
+    ]
   },
   {
     "id": "ruby",
     "name": "Ruby",
-    "skill": "Unknown",
-    "sellValue": 3200.0,
-    "output": 1.0,
+    "skill": "Gemcrafting",
+    "sellValue": 3200,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 320.0
-  },
-  {
-    "id": "starlight_ruby_lv_1",
-    "name": "Starlight Ruby Lv.1",
-    "skill": "Unknown",
-    "sellValue": 144.0,
-    "output": 7.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 14.4
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": [
+      { "id": "starlight_ruby1", "qty": 1 },
+    ]
   },
   {
     "id": "ruby_power_3",
     "name": "Ruby - Power 3",
-    "skill": "Unknown",
-    "sellValue": 6200.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 620.0
-  },
-  {
-    "id": "starlight_ruby_lv_2",
-    "name": "Starlight Ruby Lv.2",
-    "skill": "Unknown",
-    "sellValue": 144.0,
-    "output": 5.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 14.4
-  },
-  {
-    "id": "gem_wax",
-    "name": "Gem Wax",
     "skill": "Gemcrafting",
-    "sellValue": 138.0,
-    "output": 2.0,
+    "sellValue": 6200,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "ruby",
-    "name": "Ruby",
-    "skill": "Unknown",
-    "sellValue": 3200.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 320.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": [
+      { "id": "starlight_ruby2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "ruby", "qty": 1 },
+    ]
   },
   {
     "id": "ruby_bulwark_3",
     "name": "Ruby - Bulwark 3",
-    "skill": "Unknown",
-    "sellValue": 6696.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 669.6
-  },
-  {
-    "id": "starlight_ruby_lv_2",
-    "name": "Starlight Ruby Lv.2",
-    "skill": "Unknown",
-    "sellValue": 144.0,
-    "output": 5.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 14.4
-  },
-  {
-    "id": "gem_wax",
-    "name": "Gem Wax",
     "skill": "Gemcrafting",
-    "sellValue": 138.0,
-    "output": 2.0,
+    "sellValue": 6696,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "ruby",
-    "name": "Ruby",
-    "skill": "Unknown",
-    "sellValue": 3200.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 320.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": [
+      { "id": "starlight_ruby2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "ruby", "qty": 1 }, 
+    ]
   },
   {
     "id": "ruby_agility_3",
     "name": "Ruby - Agility 3",
-    "skill": "Unknown",
-    "sellValue": 6448.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 644.8
-  },
-  {
-    "id": "starlight_ruby_lv_2",
-    "name": "Starlight Ruby Lv.2",
-    "skill": "Unknown",
-    "sellValue": 144.0,
-    "output": 5.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 14.4
-  },
-  {
-    "id": "gem_wax",
-    "name": "Gem Wax",
     "skill": "Gemcrafting",
-    "sellValue": 138.0,
-    "output": 2.0,
+    "sellValue": 6448,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "ruby",
-    "name": "Ruby",
-    "skill": "Unknown",
-    "sellValue": 3200.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 320.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": [
+      { "id": "starlight_ruby2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "ruby", "qty": 1 },
+    ]
   },
   {
     "id": "ruby_abyss_3",
     "name": "Ruby - Abyss 3",
-    "skill": "Unknown",
-    "sellValue": 6448.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 644.8
-  },
-  {
-    "id": "starlight_ruby_lv_2",
-    "name": "Starlight Ruby Lv.2",
-    "skill": "Unknown",
-    "sellValue": 144.0,
-    "output": 5.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 14.4
-  },
-  {
-    "id": "gem_wax",
-    "name": "Gem Wax",
     "skill": "Gemcrafting",
-    "sellValue": 138.0,
-    "output": 2.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "ruby",
-    "name": "Ruby",
-    "skill": "Unknown",
-    "sellValue": 3200.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 320.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
-  },
-  {
-    "id": "name",
-    "name": "Name",
-    "skill": "Unknown",
-    "sellValue": 0.0,
+    "sellValue": 6448,
     "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
+    "ingredients": [
+      { "id": "starlight_ruby2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "ruby", "qty": 1 },
+    ]
   },
   {
     "id": "red_dye",
     "name": "Red Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": 1.0,
+    "skill": "Weaving",
+    "sellValue": 2777,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_red",
-    "name": "Natural Pigment - Red",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_red_dye_01.webp",
+    "ingredients": [
+      { "id": "natural_pig_red", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
   {
     "id": "orange_dye",
     "name": "Orange Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": 1.0,
+    "skill": "Weaving",
+    "sellValue": 2777,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_orange",
-    "name": "Natural Pigment - Orange",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_orange_dye_02.webp",
+    "ingredients": [
+      { "id": "natural_pig_orange", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
   {
     "id": "yellow_dye",
     "name": "Yellow Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": 1.0,
+    "skill": "Weaving",
+    "sellValue": 2777,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_yellow",
-    "name": "Natural Pigment - Yellow",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_yellow_dye_01.webp",
+    "ingredients": [
+      { "id": "natural_pig_yellow", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
   {
     "id": "green_dye",
     "name": "Green Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": 1.0,
+    "skill": "Weaving",
+    "sellValue": 2777,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_green",
-    "name": "Natural Pigment - Green",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 9.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 3.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_green_dye_01.webp",
+    "ingredients": [
+      { "id": "natural_pig_green", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
   {
     "id": "cyan_dye",
     "name": "Cyan Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": NaN,
+    "skill": "Weaving",
+    "sellValue": 2777,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_cyan",
-    "name": "Natural Pigment - Cyan",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_cyan_dye_01.webp",
+    "ingredients": [
+      { "id": "natural_pig_cyan", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
   {
     "id": "blue_dye",
     "name": "Blue Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": 1.0,
+    "skill": "Weaving",
+    "sellValue": 2777,
+    "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_blue",
-    "name": "Natural Pigment - Blue",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 8.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_blue_dye_01.webp",
+    "ingredients": [
+      { "id": "natural_pig_blue", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
   {
     "id": "purple_dye",
     "name": "Purple Dye",
-    "skill": "Unknown",
-    "sellValue": 2777.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 277.7
-  },
-  {
-    "id": "natural_pigment_purple",
-    "name": "Natural Pigment - Purple",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 3.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "boiled_water",
-    "name": "Boiled Water",
-    "skill": "Unknown",
-    "sellValue": 0.0,
-    "output": 3.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
-  },
-  {
-    "id": "name",
-    "name": "Name",
-    "skill": "Unknown",
-    "sellValue": 0.0,
+    "skill": "Weaving",
+    "sellValue": 2777,
     "output": 1,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 0.0
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_purple_dye_01.webp",
+    "ingredients": [
+      { "id": "natural_pig_purple", "qty": 8 },
+      { "id": "boiled_water", "qty": 1 },
+    ]
   },
+  /* These recipes are negative money
   {
     "id": "burning_powder",
     "name": "Burning Powder",
-    "skill": "Unknown",
-    "sellValue": 138.0,
-    "output": 15.0,
+    "skill": "Artisanry",
+    "sellValue": 138,
+    "output": 15,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 13.8
-  },
-  {
-    "id": "charcoal",
-    "name": "Charcoal",
-    "skill": "Unknown",
-    "sellValue": 180.0,
-    "output": 1.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 18.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": []
   },
   {
     "id": "gem_wax",
     "name": "Gem Wax",
-    "skill": "Gemcrafting",
-    "sellValue": 128.0,
-    "output": 15.0,
+    "skill": "Artisanry",
+    "sellValue": 128,
+    "output": 15,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 12.8
-  },
-  {
-    "id": "resin",
-    "name": "Resin",
-    "skill": "Unknown",
-    "sellValue": 180.0,
-    "output": 2.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 18.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
+    "ingredients": []
   },
   {
     "id": "fast_burning_powder",
     "name": "Fast Burning Powder",
-    "skill": "Unknown",
-    "sellValue": 472.0,
-    "output": 3.0,
+    "skill": "Artisanry",
+    "sellValue": 472,
+    "output": 3,
     "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 47.2
-  },
-  {
-    "id": "charcoal",
-    "name": "Charcoal",
-    "skill": "Unknown",
-    "sellValue": 180.0,
-    "output": 2.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 18.0
-  },
-  {
-    "id": "nan",
-    "name": "nan",
-    "skill": "Unknown",
-    "sellValue": NaN,
-    "output": NaN,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": NaN
-  },
-  {
-    "id": "charcoal",
-    "name": "Charcoal",
-    "skill": "Unknown",
-    "sellValue": 660.0,
-    "output": 10.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 66.0
-  },
-  {
-    "id": "pine_timber",
-    "name": "Pine Timber",
-    "skill": "Unknown",
-    "sellValue": 174.0,
-    "output": 28.0,
-    "craftingFocus": 10,
-    "ingredients": [],
-    "totalIngredientCost": 0,
-    "focusEfficiency": 17.4
+    "ingredients": []
   }
-] as const;
+    */
+];
+
+// Calculate derived values from ingredient data
+export const RECIPES: Recipe[] = BASE_RECIPES.map((recipe) => {
+  const totalIngredientCost = recipe.ingredients.reduce((sum, ing) => {
+    const item = INGREDIENT_MAP[ing.id];
+    return sum + (item?.defaultPrice ?? 0) * ing.qty;
+  }, 0);
+
+  const focusEfficiency = recipe.sellValue / recipe.craftingFocus;
+
+  return {
+    ...recipe,
+    totalIngredientCost,
+    focusEfficiency,
+  };
+});
