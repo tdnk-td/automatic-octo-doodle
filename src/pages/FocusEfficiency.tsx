@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { INGREDIENTS } from "@/data/ingredients";
 
 type Gatherable = {
@@ -10,121 +10,131 @@ type Gatherable = {
   icon?: string;
 };
 
-export default function FocusEfficiency(): JSX.Element {
-  const [gatherables, setGatherables] = useState<Gatherable[]>([]);
+const STORAGE_KEY = "focusEfficiencyData";
 
-  // Helper to build base gatherables from ingredients
-  const loadFromIngredients = (): Gatherable[] =>
-    INGREDIENTS.filter((ing) => ing.defaultPrice && ing.defaultPrice > 0).map(
-      (ing) => ({
+export default function FocusEfficiency(): JSX.Element {
+  const [gatherablesMap, setGatherablesMap] = useState<Record<string, Gatherable>>({});
+  const [savedIndicator, setSavedIndicator] = useState(false);
+  const [showLowEfficiency, setShowLowEfficiency] = useState(true);
+  const saveTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // Build base map once
+  useEffect(() => {
+    const base: Record<string, Gatherable> = {};
+    for (const ing of INGREDIENTS) {
+      if (!ing.defaultPrice || ing.defaultPrice <= 0) continue;
+      base[ing.id] = {
         id: ing.id,
         name: ing.name,
         focusCost: ing.gatheringFocus ?? 20,
         marketValue: ing.defaultPrice,
         procAmount: ing.gatherCount ?? 10,
         icon: ing.icon,
-      })
-    );
-
-  // 🧠 Load data on mount
-  useEffect(() => {
-    const base = loadFromIngredients();
-    const saved = localStorage.getItem("focusEfficiencyData");
-
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      const merged = base.map((g) => ({
-        ...g,
-        ...(parsed[g.id] || {}),
-      }));
-      setGatherables(merged);
-    } else {
-      setGatherables(base);
+      };
     }
+
+    const savedRaw = localStorage.getItem(STORAGE_KEY);
+    if (savedRaw) {
+      try {
+        const saved = JSON.parse(savedRaw);
+        for (const id in saved) {
+          if (base[id]) {
+            base[id].focusCost = saved[id].focusCost ?? base[id].focusCost;
+            base[id].marketValue = saved[id].marketValue ?? base[id].marketValue;
+          }
+        }
+      } catch {
+        console.warn("⚠️ Failed to parse saved focus data, using defaults");
+      }
+    }
+
+    setGatherablesMap(base);
   }, []);
 
-  // 💾 Save data when changed
+  // Debounced persistence
   useEffect(() => {
-    if (gatherables.length > 0) {
-      const saveObj = Object.fromEntries(
-        gatherables.map((g) => [
-          g.id,
-          { focusCost: g.focusCost, marketValue: g.marketValue },
-        ])
-      );
-      localStorage.setItem("focusEfficiencyData", JSON.stringify(saveObj));
-    }
-  }, [gatherables]);
+    if (!Object.keys(gatherablesMap).length) return;
 
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => {
+      const saveObj: Record<string, { focusCost: number; marketValue: number }> = {};
+      for (const [id, g] of Object.entries(gatherablesMap)) {
+        saveObj[id] = { focusCost: g.focusCost, marketValue: g.marketValue };
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saveObj));
+      setSavedIndicator(true);
+      setTimeout(() => setSavedIndicator(false), 1000);
+    }, 300);
+  }, [gatherablesMap]);
+
+  // Update handlers
   const handleValueChange = (
     id: string,
     key: "focusCost" | "marketValue",
     val: number
   ) => {
-    setGatherables((prev) => {
-      const updated = prev.map((g) =>
-        g.id === id ? { ...g, [key]: val } : g
-      );
-      return sortGatherables(updated);
-    });
+    setGatherablesMap((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], [key]: val },
+    }));
   };
 
   const handleReset = () => {
-    const base = loadFromIngredients();
-    setGatherables(sortGatherables(base));
-    localStorage.removeItem("focusEfficiencyData");
+    localStorage.removeItem(STORAGE_KEY);
+    window.location.reload();
   };
 
-  const sortGatherables = (list: Gatherable[]) => {
-    return [...list].sort(
-      (a, b) =>
-        (b.marketValue * b.procAmount) / b.focusCost -
-        (a.marketValue * a.procAmount) / a.focusCost
-    );
-  };
+  // Derived sorted list
+  const gatherables = Object.values(gatherablesMap);
+  const sorted = gatherables
+    .map((g) => ({
+      ...g,
+      efficiency: (g.marketValue * g.procAmount) / (g.focusCost || 1),
+    }))
+    .filter((g) => (showLowEfficiency ? true : g.efficiency > 10))
+    .sort((a, b) => b.efficiency - a.efficiency);
 
-  // Pre-sort initially
-  useEffect(() => {
-    if (gatherables.length > 0) {
-      setGatherables((prev) => sortGatherables(prev));
-    }
-  }, []);
-
-  // Calculate average efficiency (for ROI %)
-  const avgEfficiency =
-    gatherables.length > 0
-      ? gatherables.reduce(
-          (sum, g) => sum + (g.marketValue * g.procAmount) / g.focusCost,
-          0
-        ) / gatherables.length
-      : 0;
+  const avgEff =
+    sorted.reduce((sum, g) => sum + g.efficiency, 0) / (sorted.length || 1);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#07111a] to-[#0b0f14] text-slate-200 p-6">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-semibold">
-            ⚡ Focus Efficiency per Gather
-          </h1>
-          <button
-            onClick={handleReset}
-            className="px-3 py-1.5 bg-[#122230] border border-[#1f3548] text-sm rounded-md hover:bg-[#1a2e40] transition-colors"
-          >
-            Reset Data
-          </button>
+          <h1 className="text-3xl font-semibold">⚡ Focus Efficiency per Gather</h1>
+          <div className="flex items-center gap-3">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={showLowEfficiency}
+                onChange={(e) => setShowLowEfficiency(e.target.checked)}
+              />
+              Show All
+            </label>
+            <button
+              onClick={handleReset}
+              className="px-3 py-1.5 bg-[#122230] border border-[#1f3548] text-sm rounded-md hover:bg-[#1a2e40] transition-colors"
+            >
+              Reset Data
+            </button>
+          </div>
         </div>
 
+        {/* 💾 Saved indicator */}
+        {savedIndicator && (
+          <div className="text-green-400 text-sm mb-2 text-right animate-pulse">
+            Saved ✔
+          </div>
+        )}
+
         <div className="grid gap-3">
-          {gatherables.map((g) => {
-            const efficiency = (g.marketValue * g.procAmount) / g.focusCost;
+          {sorted.map((g) => {
             const roiPercent =
-              avgEfficiency > 0
-                ? ((efficiency - avgEfficiency) / avgEfficiency) * 100
-                : 0;
+              avgEff > 0 ? ((g.efficiency - avgEff) / avgEff) * 100 : 0;
             const color =
-              efficiency > 20
+              g.efficiency > 20
                 ? "text-green-400"
-                : efficiency > 10
+                : g.efficiency > 10
                 ? "text-yellow-400"
                 : "text-red-400";
             const roiColor =
@@ -175,7 +185,7 @@ export default function FocusEfficiency(): JSX.Element {
                   />
                   <div>
                     <div className={`font-semibold ${color}`}>
-                      {efficiency.toFixed(2)}
+                      {g.efficiency.toFixed(2)}
                     </div>
                     <div className={`text-xs ${roiColor}`}>
                       {roiPercent >= 0 ? "+" : ""}
@@ -187,7 +197,7 @@ export default function FocusEfficiency(): JSX.Element {
             );
           })}
 
-          {gatherables.length === 0 && (
+          {sorted.length === 0 && (
             <div className="text-slate-400 text-center py-10">
               No valid ingredients with prices found.
             </div>

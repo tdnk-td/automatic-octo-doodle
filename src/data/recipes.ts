@@ -43,7 +43,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 2083,
     "output": 1,
     "craftingFocus": 10,
-    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_forgestone_01.webp",
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_god_metal_02.webp",
     "ingredients": [
       { "id": "luna_ore", "qty": 8 },
       { "id": "burning_powder", "qty": 1 },
@@ -52,10 +52,11 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
   {
     "id": "radiant_stone",
     "name": "Radiant Stone",
-    "skill": "Gemcrafting",
+    "skill": "Smelting",
     "sellValue": 2083,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_aluminium_01.webp",
     "ingredients": [
       { "id": "azte_ore", "qty": 8 },
       { "id": "burning_powder", "qty": 1 },
@@ -68,6 +69,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 6000,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/item_icons_equipment%20gems_01.webp",
     "ingredients": [
       { "id": "stokes_rich_ore", "qty": 9 },
       { "id": "fast_burning_powder", "qty": 3 },
@@ -80,6 +82,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 3200,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/red_crystal_stone_basic.webp",
     "ingredients": [
       { "id": "starlight_ruby1", "qty": 1 },
     ]
@@ -91,6 +94,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 6200,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/red_crystal_stone_triangle_2.webp",
     "ingredients": [
       { "id": "starlight_ruby2", "qty": 5 },
       { "id": "gem_wax", "qty": 2 },
@@ -104,6 +108,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 6696,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/red_crystal_stone_square_2.webp",
     "ingredients": [
       { "id": "starlight_ruby2", "qty": 5 },
       { "id": "gem_wax", "qty": 2 },
@@ -117,6 +122,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 6448,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/red_crystal_stone_special_2.webp",
     "ingredients": [
       { "id": "starlight_ruby2", "qty": 5 },
       { "id": "gem_wax", "qty": 2 },
@@ -130,6 +136,7 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     "sellValue": 6448,
     "output": 1,
     "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/red_crystal_stone_pear_2.webp", 
     "ingredients": [
       { "id": "starlight_ruby2", "qty": 5 },
       { "id": "gem_wax", "qty": 2 },
