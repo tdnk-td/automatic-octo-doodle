@@ -115,7 +115,7 @@ export default function FocusEfficiency(): JSX.Element {
               onClick={handleReset}
               className="px-3 py-1.5 bg-[#122230] border border-[#1f3548] text-sm rounded-md hover:bg-[#1a2e40] transition-colors"
             >
-              Reset Data
+              destroy the page
             </button>
           </div>
         </div>

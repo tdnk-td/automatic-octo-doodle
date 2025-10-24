@@ -1,14 +1,13 @@
 {
   "name": "automatic-octo-doodle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "homepage": "https://tdnk-td.github.io/automatic-octo-doodle",
+  "homepage": "https:// tdnk-td.github.io/automatic-octo-doodle/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

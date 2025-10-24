@@ -1,5 +1,5 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom/client"; // Important for React 18+
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./App";
 import FocusEfficiency from "./pages/FocusEfficiency";
@@ -14,14 +14,10 @@ function Navbar() {
   );
 }
 
-createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/efficiency" element={<FocusEfficiency />} />
-      </Routes>
+    <BrowserRouter basename="/automatic-octo-doodle">
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );
