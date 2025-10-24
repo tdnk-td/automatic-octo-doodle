@@ -31,10 +31,10 @@ Visit `http://localhost:5173` in your browser (or the URL shown in your terminal
 
 ## Screenshots
 
-![Calculator Overview](.github/assets/calculator-overview.png)
+![Calculator Overview](https://github.com/tdnk-td/automatic-octo-doodle/blob/main/assets/images/calculator-overview.png)
 *Main calculator interface with recipe filtering*
 
-![Recipe Details](.github/assets/focus-efficiency.png)
+![Recipe Details](https://github.com/tdnk-td/automatic-octo-doodle/blob/main/assets/images/focus-efficiency.png)
 *Focus Efficiency page detailing gathering efficiencies*
 
 ## Local Storage
