@@ -144,6 +144,210 @@ const BASE_RECIPES: Omit<Recipe, "totalIngredientCost" | "focusEfficiency">[] = 
     ]
   },
   {
+    "id": "sapphire",
+    "name": "Sapphire",
+    "skill": "Gemcrafting",
+    "sellValue": 3200,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/blue_crystal_stone_basic.webp",
+    "ingredients": [
+      { "id": "starlight_sapphire1", "qty": 1 }
+    ]
+  },
+  {
+    "id": "sapphire_power_3",
+    "name": "Sapphire - Power 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6200,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/blue_crystal_stone_triangle_2.webp",
+    "ingredients": [
+      { "id": "starlight_sapphire2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "sapphire", "qty": 1 }
+    ]
+  },
+  {
+    "id": "sapphire_bulwark_3",
+    "name": "Sapphire - Bulwark 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6696,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/blue_crystal_stone_square_2.webp",
+    "ingredients": [
+      { "id": "starlight_sapphire2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "sapphire", "qty": 1 }
+    ]
+  },
+  {
+    "id": "sapphire_agility_3",
+    "name": "Sapphire - Agility 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6448,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/blue_crystal_stone_special_2.webp",
+    "ingredients": [
+      { "id": "starlight_sapphire2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "sapphire", "qty": 1 }
+    ]
+  },
+  {
+    "id": "sapphire_abyss_3",
+    "name": "Sapphire - Abyss 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6448,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/blue_crystal_stone_pear_2.webp",
+    "ingredients": [
+      { "id": "starlight_sapphire2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "sapphire", "qty": 1 }
+    ]
+  },
+  {
+  "id": "diamond",
+  "name": "Diamond",
+  "skill": "Gemcrafting",
+  "sellValue": 3200,
+  "output": 1,
+  "craftingFocus": 10,
+  "icon": "https://cdn.questlog.gg/blue-protocol/assets/yellow_crystal_stone_basic.webp",
+  "ingredients": [
+    { "id": "starlight_diamond1", "qty": 1 }
+  ]
+  },
+  {
+    "id": "diamond_power_3",
+    "name": "Diamond - Power 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6200,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/yellow_crystal_stone_triangle_2.webp",
+    "ingredients": [
+      { "id": "starlight_diamond2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "diamond", "qty": 1 }
+    ]
+  },
+  {
+    "id": "diamond_bulwark_3",
+    "name": "Diamond - Bulwark 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6696,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/yellow_crystal_stone_square_2.webp",
+    "ingredients": [
+      { "id": "starlight_diamond2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "diamond", "qty": 1 }
+    ]
+  },
+  {
+    "id": "diamond_agility_3",
+    "name": "Diamond - Agility 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6448,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/yellow_crystal_stone_special_2.webp",
+    "ingredients": [
+      { "id": "starlight_diamond2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "diamond", "qty": 1 }
+    ]
+  },
+  {
+    "id": "diamond_abyss_3",
+    "name": "Diamond - Abyss 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6448,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/yellow_crystal_stone_pear_2.webp",
+    "ingredients": [
+      { "id": "starlight_diamond2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "diamond", "qty": 1 }
+    ]
+  },
+  {
+  "id": "emerald",
+  "name": "Emerald",
+  "skill": "Gemcrafting",
+  "sellValue": 3200,
+  "output": 1,
+  "craftingFocus": 10,
+  "icon": "https://cdn.questlog.gg/blue-protocol/assets/green_crystal_stone_basic.webp",
+  "ingredients": [
+    { "id": "starlight_emerald1", "qty": 1 }
+  ]
+  },
+  {
+    "id": "emerald_power_3",
+    "name": "Emerald - Power 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6200,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/green_crystal_stone_triangle_2.webp",
+    "ingredients": [
+      { "id": "starlight_emerald2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "emerald", "qty": 1 }
+    ]
+  },
+  {
+    "id": "emerald_bulwark_3",
+    "name": "Emerald - Bulwark 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6696,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/green_crystal_stone_square_2.webp",
+    "ingredients": [
+      { "id": "starlight_emerald2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "emerald", "qty": 1 }
+    ]
+  },
+  {
+    "id": "emerald_agility_3",
+    "name": "Emerald - Agility 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6448,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/green_crystal_stone_special_2.webp",
+    "ingredients": [
+      { "id": "starlight_emerald2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "emerald", "qty": 1 }
+    ]
+  },
+  {
+    "id": "emerald_abyss_3",
+    "name": "Emerald - Abyss 3",
+    "skill": "Gemcrafting",
+    "sellValue": 6448,
+    "output": 1,
+    "craftingFocus": 10,
+    "icon": "https://cdn.questlog.gg/blue-protocol/assets/green_crystal_stone_pear_2.webp",
+    "ingredients": [
+      { "id": "starlight_emerald2", "qty": 5 },
+      { "id": "gem_wax", "qty": 2 },
+      { "id": "emerald", "qty": 1 }
+    ]
+  },
+  {
     "id": "red_dye",
     "name": "Red Dye",
     "skill": "Weaving",

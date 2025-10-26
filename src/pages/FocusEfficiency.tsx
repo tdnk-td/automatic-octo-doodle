@@ -79,10 +79,25 @@ export default function FocusEfficiency(): JSX.Element {
     }));
   };
 
-  const handleReset = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    window.location.reload();
-  };
+const handleReset = () => {
+  localStorage.removeItem(STORAGE_KEY);
+  setGatherablesMap((prev) => {
+    const resetMap: typeof prev = {};
+    for (const ing of INGREDIENTS) {
+      if (!ing.defaultPrice || ing.defaultPrice <= 0) continue;
+      resetMap[ing.id] = {
+        id: ing.id,
+        name: ing.name,
+        focusCost: ing.gatheringFocus ?? 20,
+        marketValue: ing.defaultPrice,
+        procAmount: ing.gatherCount ?? 10,
+        icon: ing.icon,
+      };
+    }
+    return resetMap;
+  });
+};
+
 
   // Derived sorted list
   const gatherables = Object.values(gatherablesMap);
@@ -115,7 +130,7 @@ export default function FocusEfficiency(): JSX.Element {
               onClick={handleReset}
               className="px-3 py-1.5 bg-[#122230] border border-[#1f3548] text-sm rounded-md hover:bg-[#1a2e40] transition-colors"
             >
-              destroy the page
+              Erase Data
             </button>
           </div>
         </div>
